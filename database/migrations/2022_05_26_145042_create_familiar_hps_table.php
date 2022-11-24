@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('familiar_hps', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name');
-            $table->string('slug');
-            $table->string('description')->nullable();
-            $table->string('price', 8, 2);
+            $table->string('max-hp');
+            $table->string('hit-dice-num');
+            $table->string('hit-dice-type');
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('familiar_hps');
     }
 };

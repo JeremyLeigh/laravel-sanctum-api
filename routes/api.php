@@ -1,6 +1,9 @@
 <?php
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FamiliarController;
+use App\Http\Controllers\FamiliarMaster;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,15 +21,39 @@ use Illuminate\Support\Facades\Route;
 //Route::resource('products', ProductController::class);
 
 //Public Routes
-Route::get('/products/search/{name}', [ProductController::class, 'search']);
-Route::get('/products', [ProductController::class, 'index']);Route::get('/products', [ProductController::class, 'index']);
-Route::get('/products/{id}', [ProductController::class, 'show']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+
+    //Familiar Routes
+        //Post
+        Route::post('/familiar', [FamiliarMaster::class, 'store']);
+        //Delete
+        Route::delete('/familiar/{id}', [FamiliarMaster::class, 'destroy']);
+        //Get
+        Route::get('/familiar', [FamiliarMaster::class, 'index']);
+        Route::get('/familiar/{id}', [FamiliarMaster::class, 'show']);
+        Route::get('/familiar/speed/{id}', [FamiliarMaster::class, 'speed']);
+        Route::get('/familiar/skills/{id}', [FamiliarMaster::class, 'skills']);
+        Route::get('/familiar/senses/{id}', [FamiliarMaster::class, 'senses']);
+        Route::get('/familiar/traits/{id}', [FamiliarMaster::class, 'traits']);
+        Route::get('/familiar/actions/{id}', [FamiliarMaster::class, 'actions']);
+
+
+        Route::get('/token', function (Request $request) {
+            $token = $request->session()->token();
+         
+            $token = csrf_token();
+        });
+
+
+    //Ref
+        Route::get('/products/search/{name}', [ProductController::class, 'search']);
+        Route::get('/products', [ProductController::class, 'index']);
+        Route::get('/products/{id}', [ProductController::class, 'show']);
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/login', [AuthController::class, 'login']);
 
 
 //Protected Routes
-Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{id}', [ProductController::class, 'update']);
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
